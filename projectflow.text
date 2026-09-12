@@ -1,0 +1,10 @@
+Project Workflow
+
+Step 1: Repository Setup
+Create a new Git repository and clone it to the local machine.
+
+Step 2: Data Generation Script
+Create a Python script (mycode.py) that generates a dataset and saves it 
+as a CSV file inside a newly created "data" folder.
+
+Step 3: Do a git add-commit-push before initializing dvc.
