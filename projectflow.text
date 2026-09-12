@@ -7,4 +7,40 @@ Step 2: Data Generation Script
 Create a Python script (mycode.py) that generates a dataset and saves it 
 as a CSV file inside a newly created "data" folder.
 
-Step 3: Do a git add-commit-push before initializing dvc.
+Step 3: Initial Commit
+Perform a git add-commit-push before initializing DVC, so the code is 
+tracked and backed up before data versioning begins.
+
+Step 4: Install DVC
+Run "pip install dvc" to install the DVC package.
+
+Step 5: Initialize DVC
+Run "dvc init" — this creates the .dvcignore file and the .dvc directory, 
+setting up DVC tracking for the project.
+
+Step 6: Create Remote Storage Directory
+Run "mkdir s3" to create a new local directory named "s3" that will act 
+as the remote storage location for DVC.
+
+Step 7: Configure DVC Remote
+Run "dvc remote add -d myremote s3" to register the "s3" folder as the 
+default remote storage for DVC.
+
+Step 8: Track Data with DVC
+Run "dvc add data/" to start tracking the "data" folder with DVC.
+
+This will prompt DVC to run:
+- "git rm -r --cached 'data'"
+- git commit -m "stop tracking data"
+
+This step is necessary because Git was already tracking the "data/" 
+folder initially. Since DVC will now handle version control for this 
+folder, it must be removed from Git's tracking first.
+
+Step 9: Re-track with DVC and Update Git
+Run "dvc add data/" again — this creates a "data.dvc" file (a lightweight 
+pointer file representing the tracked data).
+
+Then run "git add .gitignore data.dvc" to add the DVC pointer file and 
+updated .gitignore to Git, completing the handoff of the "data" folder 
+from Git tracking to DVC tracking.
