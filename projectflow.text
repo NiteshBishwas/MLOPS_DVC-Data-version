@@ -4,7 +4,7 @@ Step 1: Repository Setup
 Create a new Git repository and clone it to the local machine.
 
 Step 2: Data Generation Script
-Create a Python script (mycode.py) that generates a dataset and saves it 
+Create a Python script (code.py) that generates a dataset and saves it 
 as a CSV file inside a newly created "data" folder.
 
 Step 3: Initial Commit
@@ -19,11 +19,11 @@ Run "dvc init" — this creates the .dvcignore file and the .dvc directory,
 setting up DVC tracking for the project.
 
 Step 6: Create Remote Storage Directory
-Run "mkdir s3" to create a new local directory named "s3" that will act 
+Run "mkdir S3" to create a new local directory named "S3" that will act 
 as the remote storage location for DVC.
 
 Step 7: Configure DVC Remote
-Run "dvc remote add -d myremote s3" to register the "s3" folder as the 
+Run "dvc remote add -d myremote S3" to register the "S3" folder as the 
 default remote storage for DVC.
 
 Step 8: Track Data with DVC
@@ -39,8 +39,33 @@ folder, it must be removed from Git's tracking first.
 
 Step 9: Re-track with DVC and Update Git
 Run "dvc add data/" again — this creates a "data.dvc" file (a lightweight 
-pointer file representing the tracked data).
+pointer file representing the tracked data). Then run 
+"git add .gitignore data.dvc" to add the DVC pointer file and updated 
+.gitignore to Git.
 
-Then run "git add .gitignore data.dvc" to add the DVC pointer file and 
-updated .gitignore to Git, completing the handoff of the "data" folder 
-from Git tracking to DVC tracking.
+Step 10: Push Data to Remote Storage
+Run "dvc commit" followed by "dvc push" to save and upload the current 
+version of the data to the configured remote (S3).
+
+Step 11: Commit First Data Version to Git
+Perform a git add-commit-push to mark this stage as the first version 
+(V1) of the data.
+
+Step 12: Update Data (V2)
+Make changes to code.py to append a new row to the dataset. Check what 
+changed using "dvc status".
+
+Step 13: Push Updated Data
+Run "dvc commit" followed by "dvc push" again to save and upload the 
+updated version of the data.
+
+Step 14: Commit Second Data Version to Git
+Perform a git add-commit-push to save this stage as version 2 (V2) of 
+the data.
+
+Step 15: Verify Sync Status
+Check "dvc status" and "git status" to confirm both Git and DVC are 
+fully up to date.
+
+Step 16: Repeat for V3
+Repeat Steps 12–15 to create and track version 3 (V3) of the data.
